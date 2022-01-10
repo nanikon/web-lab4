@@ -1,4 +1,4 @@
-package ru.nanikon.backend.dto;
+package ru.nanikon.backend.data;
 
 import lombok.Getter;
 import lombok.Setter;
