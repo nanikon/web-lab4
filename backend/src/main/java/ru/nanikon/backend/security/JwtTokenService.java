@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ru.nanikon.backend.exception.NotFoundDataException;
+import ru.nanikon.backend.exception.WrongTokenException;
 import ru.nanikon.backend.security.userDetails.CustomUserDetailsService;
 import ru.nanikon.backend.service.UserService;
 
@@ -30,9 +32,10 @@ public class JwtTokenService {
         this.userService = userService;
     }
 
-    public String createToken(Long id) {
+    public String createToken(Long id, String login) {
         long expirationTimeMillis = 600_000;
         Claims claims = Jwts.claims().setSubject(String.valueOf(id));
+        claims.put("login", login);
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationTimeMillis);
         return Jwts.builder()
@@ -54,11 +57,10 @@ public class JwtTokenService {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            getUserIdByToken(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException("uncorrect token in service");
-            // TODO a new exception throw new ProviderException("Expired or invalid JWT token", HttpStatus.UNAUTHORIZED);
+        } catch (JwtException | IllegalArgumentException | NotFoundDataException e) {
+            return false;
         }
     }
 

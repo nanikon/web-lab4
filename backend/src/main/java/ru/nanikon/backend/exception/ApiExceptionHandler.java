@@ -6,9 +6,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -25,6 +27,23 @@ import java.util.List;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ResponseBody
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+   @ExceptionHandler(value = {
+           NotFoundDataException.class,
+           UserAlreadyExistException.class,
+           WrongTokenException.class,
+           WrongPasswordException.class
+   })
+   protected ResponseEntity<Object> handleError(BaseApiException ex, WebRequest request) {
+      logger.error("Exception in occurred", ex);
+      SecurityContextHolder.clearContext();
+      return handleExceptionInternal(
+              ex,
+              new ApiErrorResponse(ex.getErrorCode(), ex.getMessage()),
+              new HttpHeaders(), ex.getHttpStatus(),
+              request);
+   }
+
+
    @NonNull
    @Override
    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

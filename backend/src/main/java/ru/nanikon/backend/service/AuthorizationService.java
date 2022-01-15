@@ -1,6 +1,7 @@
 package ru.nanikon.backend.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.nanikon.backend.data.TokenDTO;
 import ru.nanikon.backend.data.UserDTO;
+import ru.nanikon.backend.exception.UserAlreadyExistException;
+import ru.nanikon.backend.exception.WrongPasswordException;
 import ru.nanikon.backend.security.JwtTokenService;
 
 /**
@@ -28,18 +31,26 @@ public class AuthorizationService {
     }
 
     public TokenDTO login(UserDTO userDTO) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getLogin(), userDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenService.createToken(userService.getIdByLogin(userDTO.getLogin()));
-        return new TokenDTO(token);
+        try {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getLogin(), userDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenService.createToken(userService.getIdByLogin(userDTO.getLogin()), userDTO.getLogin());
+            return new TokenDTO(token);
+        } catch (BadCredentialsException ex) {
+            throw new WrongPasswordException("Неверный пароль");
+        }
     }
 
     public UserDTO register(UserDTO userDTO) {
-        String password = userDTO.getPassword();
-        userDTO.setPassword(passwordEncoder.encode(password));
-        UserDTO result = userService.create(userDTO);
-        result.setPassword(password);
-        return result;
+        try{
+            String password = userDTO.getPassword();
+            userDTO.setPassword(passwordEncoder.encode(password));
+            UserDTO result = userService.create(userDTO);
+            result.setPassword(password);
+            return result;
+        } catch (Exception e) {
+            throw new UserAlreadyExistException("Уже существует пользователь с логином " + userDTO.getLogin());
+        }
     }
 }
