@@ -16,6 +16,6 @@ public class UserService {
    }
 
    public UserEntity getUserByLogin(String login) {
-      return userRepository.findByLogin(login).orElse(null);
+      return userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("Not found user")); //TODO сделать свой класс исключений NotFound
    }
 }
