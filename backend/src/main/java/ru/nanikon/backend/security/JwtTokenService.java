@@ -57,8 +57,8 @@ public class JwtTokenService {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+            throw new RuntimeException("uncorrect token in service");
             // TODO a new exception throw new ProviderException("Expired or invalid JWT token", HttpStatus.UNAUTHORIZED);
-            return false;
         }
     }
 
