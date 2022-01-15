@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.nanikon.backend.security.JwtTokenService;
 import ru.nanikon.backend.security.userDetails.CustomUserDetailsService;
 
 /**
@@ -17,9 +18,11 @@ import ru.nanikon.backend.security.userDetails.CustomUserDetailsService;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
+    private final JwtTokenService jwtTokenService;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtTokenService jwtTokenService) {
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated();
-        //http.apply(new JwtFilterConfigurer(jwtProvider));
+        http.apply(new JwtFilterConfig(jwtTokenService));
     }
 
     @Bean
