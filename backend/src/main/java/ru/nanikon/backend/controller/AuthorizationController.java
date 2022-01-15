@@ -1,7 +1,6 @@
 package ru.nanikon.backend.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,7 @@ public class AuthorizationController {
    }
 
    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-   public ResponseEntity<?> registration(@RequestBody UserDTO userDTO) {
-      return null;
+   public UserDTO registration(@RequestBody UserDTO userDTO) {
+      return authorizationService.register(userDTO);
    }
 }

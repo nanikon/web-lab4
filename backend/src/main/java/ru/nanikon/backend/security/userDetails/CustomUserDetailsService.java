@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.nanikon.backend.entity.UserEntity;
+import ru.nanikon.backend.data.UserDTO;
 import ru.nanikon.backend.service.UserService;
 
 /**
@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     */
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      UserEntity user = userService.getUserByLogin(username);
-      return mapper.fromEntityToDetails(user);
+      UserDTO user = userService.getUserByLogin(username);
+      return mapper.fromDTOToDetails(user);
    }
 }
