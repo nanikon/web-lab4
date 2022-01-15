@@ -35,7 +35,7 @@ public class AuthorizationService {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getLogin(), userDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtTokenService.createToken(userService.getIdByLogin(userDTO.getLogin()), userDTO.getLogin());
+            String token = jwtTokenService.createToken(userService.getEntityByLogin(userDTO.getLogin()).getId(), userDTO.getLogin());
             return new TokenDTO(token);
         } catch (BadCredentialsException ex) {
             throw new WrongPasswordException("Неверный пароль");
