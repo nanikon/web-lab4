@@ -15,6 +15,7 @@ import java.util.LinkedList;
 @Getter
 @Setter
 public class CustomUserDetails implements UserDetails {
+    private Long id;
     private String username;
     @JsonIgnore
     private String password;

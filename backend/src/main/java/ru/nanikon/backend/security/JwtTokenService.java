@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.nanikon.backend.exception.NotFoundDataException;
 import ru.nanikon.backend.exception.WrongTokenException;
+import ru.nanikon.backend.security.userDetails.CustomUserDetails;
 import ru.nanikon.backend.security.userDetails.CustomUserDetailsService;
 import ru.nanikon.backend.service.UserService;
 
@@ -51,7 +52,7 @@ public class JwtTokenService {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userService.getUserById(getUserIdByToken(token)).getLogin());
+        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(userService.getUserById(getUserIdByToken(token)).getLogin());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
