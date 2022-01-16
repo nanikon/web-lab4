@@ -1,7 +1,6 @@
-package ru.nanikon.backend.service;
+package ru.nanikon.backend.area;
 
 import org.springframework.stereotype.Service;
-import ru.nanikon.backend.area.Shape;
 import ru.nanikon.backend.entity.ShotEntity;
 
 import java.util.ArrayList;

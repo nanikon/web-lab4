@@ -10,7 +10,7 @@ import ru.nanikon.backend.data.FullShotDTO;
 import ru.nanikon.backend.entity.ShotEntity;
 import ru.nanikon.backend.exception.NotFoundDataException;
 import ru.nanikon.backend.repository.UserRepository;
-import ru.nanikon.backend.service.AreaService;
+import ru.nanikon.backend.area.AreaService;
 
 /**
  * @author Natalia Nikonova
