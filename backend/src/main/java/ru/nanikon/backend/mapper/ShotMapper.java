@@ -30,9 +30,9 @@ public class ShotMapper {
 
    public ShotEntity fromCreateDTOToEntity(CreateShotDTO source, Long userId) {
       ShotEntity target = new ShotEntity();
-      target.setX(source.getX());
+      target.setX((int) Math.round(source.getX()));
       target.setY(source.getY());
-      target.setR(source.getR());
+      target.setR((int) Math.round(source.getR()));
       areaService.checkArea(target);
       target.setUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundDataException("Пользователь не найден")));
       return target;
@@ -40,9 +40,9 @@ public class ShotMapper {
 
    public FullShotDTO fromEntityToDTO(ShotEntity source) {
       FullShotDTO target = new FullShotDTO();
-      target.setX(source.getX());
+      target.setX((double) source.getX());
       target.setY(source.getY());
-      target.setR(source.getR());
+      target.setR((double) source.getR());
       target.setHit(source.getIsHit());
       return target;
    }

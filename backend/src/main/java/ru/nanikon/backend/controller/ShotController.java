@@ -13,6 +13,7 @@ import ru.nanikon.backend.data.CreateShotDTO;
 import ru.nanikon.backend.data.FullShotDTO;
 import ru.nanikon.backend.service.ShotService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class ShotController {
 
     @Operation(summary = "Метод для проверки выстрела и сохранения его в базу данных")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public FullShotDTO createShot(@RequestBody CreateShotDTO shotDTO) {
+    public FullShotDTO createShot(@RequestBody @Valid CreateShotDTO shotDTO) {
         return shotService.create(shotDTO);
     }
 }

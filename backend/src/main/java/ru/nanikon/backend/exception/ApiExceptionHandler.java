@@ -55,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
          errors.add(new ApiErrorResponse(
                  HttpStatus.BAD_REQUEST.name(),
                  String.format(
-                         "Field %s - %s",
+                         "Поле %s - %s",
                          error.getField(),
                          error.getDefaultMessage())));
       }
