@@ -3,7 +3,6 @@ package ru.nanikon.backend.security.userDetails;
 import org.springframework.stereotype.Component;
 import ru.nanikon.backend.data.UserDTO;
 import ru.nanikon.backend.entity.UserEntity;
-import ru.nanikon.backend.security.userDetails.CustomUserDetails;
 
 /**
  * @author Natalia Nikonova
@@ -19,6 +18,7 @@ public class UserToCustomUserDetailsMapper {
 
    public CustomUserDetails fromEntityToDetails(UserEntity userEntity) {
       CustomUserDetails result = new CustomUserDetails();
+      result.setId(userEntity.getId());
       result.setUsername(userEntity.getLogin());
       result.setPassword(userEntity.getPassword());
       return result;

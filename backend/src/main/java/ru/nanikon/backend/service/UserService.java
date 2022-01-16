@@ -2,6 +2,7 @@ package ru.nanikon.backend.service;
 
 import org.springframework.stereotype.Service;
 import ru.nanikon.backend.data.UserDTO;
+import ru.nanikon.backend.entity.UserEntity;
 import ru.nanikon.backend.exception.NotFoundDataException;
 import ru.nanikon.backend.mapper.UserMapper;
 import ru.nanikon.backend.repository.UserRepository;
@@ -20,11 +21,11 @@ public class UserService {
    }
 
    public UserDTO getUserByLogin(String login) {
-      return mapper.fromEntityToDTO(userRepository.findByLogin(login).orElseThrow(() -> new NotFoundDataException("Не найден пользователь с логином " + login)));
+      return mapper.fromEntityToDTO(getEntityByLogin(login));
    }
 
-   public Long getIdByLogin(String login) {
-      return userRepository.findByLogin(login).orElseThrow(() -> new NotFoundDataException("Не найден пользователь с логином " + login)).getId();
+   public UserEntity getEntityByLogin(String login) {
+      return userRepository.findByLogin(login).orElseThrow(() -> new NotFoundDataException("Не найден пользователь с логином " + login));
    }
 
    public UserDTO getUserById(Long id) {

@@ -1,5 +1,6 @@
 package ru.nanikon.backend.service;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +36,7 @@ public class AuthorizationService {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getLogin(), userDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtTokenService.createToken(userService.getIdByLogin(userDTO.getLogin()), userDTO.getLogin());
+            String token = jwtTokenService.createToken(userService.getEntityByLogin(userDTO.getLogin()).getId(), userDTO.getLogin());
             return new TokenDTO(token);
         } catch (BadCredentialsException ex) {
             throw new WrongPasswordException("Неверный пароль");
@@ -49,8 +50,8 @@ public class AuthorizationService {
             UserDTO result = userService.create(userDTO);
             result.setPassword(password);
             return result;
-        } catch (Exception e) {
+        } catch (ConstraintViolationException e) {
             throw new UserAlreadyExistException("Уже существует пользователь с логином " + userDTO.getLogin());
-        }
+       }
     }
 }
