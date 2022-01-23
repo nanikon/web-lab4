@@ -6,7 +6,7 @@ export default {
   head: {
     title: 'lab4',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
@@ -15,12 +15,21 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        as: 'style',
+        rel: 'stylesheet preload prefetch',
+        href: '/fonts/fonts.css',
+      },
+      { rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico' }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~assets/styles/global',
+    'reset-css/reset.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
