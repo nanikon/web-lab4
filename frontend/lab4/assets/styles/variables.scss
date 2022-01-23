@@ -2,6 +2,10 @@
 $mobile:                            809px;  // max
 $tablet:                            1034px; //max
 
+//widths
+$max-content:                       1000px;
+
+
 //fonts
 $font-family-regular:              'AnonymousPro-Regular', monospace;
 $font-family-bold:                 'AnonymousPro-Bold', monospace;
@@ -24,3 +28,8 @@ $text-color:                      var(--basic-text-color);
 $button-color:                    var(--basic-button-color);
 $hover-button-color:              var(--hover-button-color);
 $pressed-button-color:            var(--pressed-button-color);
+
+$white:                           rgb(255, 255, 255);
+
+//other
+$border-radius:                   10px;
