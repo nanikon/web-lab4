@@ -1,6 +1,6 @@
 <template>
-  <div>
-  <Custom-header></Custom-header>
+  <div class="page">
+  <CustomHeader></CustomHeader>
   <nuxt></nuxt>
   </div>
 </template>

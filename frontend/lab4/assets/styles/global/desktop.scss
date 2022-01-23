@@ -9,8 +9,9 @@ html {
   color: var(--basic-text-color);
   min-height: 100%;
 
-  body, #__nuxt, #__layout, #__layout > div {
-    height: 100vh;
+  body, #__nuxt, #__layout, .page {
+    min-height: 100vh;
+    height: 1px;
   }
 
   body {
@@ -31,6 +32,19 @@ html {
         margin: auto;
         border-radius: $border-radius;
         padding: 24px;
+      }
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-family: monospace;
+      background-color: $header-background-color;
+      color: $background-color;
+
+      p {
+        text-align: right;
       }
     }
   }
