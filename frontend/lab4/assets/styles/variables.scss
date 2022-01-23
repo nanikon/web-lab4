@@ -1,0 +1,26 @@
+//breakpoints
+$mobile:                            809px;  // max
+$tablet:                            1034px; //max
+
+//fonts
+$font-family-regular:              'AnonymousPro-Regular', monospace;
+$font-family-bold:                 'AnonymousPro-Bold', monospace;
+$font-family-bold-italic:          'AnonymousPro-BoldItalic', monospace;
+$font-family-bold-italic:          'AnonymousPro-Italic', monospace;
+
+//colors
+:root {
+  --basic-background-color: #E6E6D7;
+  --basic-text-color: #152410;
+  --hover-button-color: #748C5D;
+  --pressed-button-color: #41553C;
+  --basic-button-color: #AF412D;
+  --additional-background-color: #CD9575;
+}
+
+$background-color:                var(--basic-background-color);
+$header-background-color:         var(--additional-background-color);
+$text-color:                      var(--basic-text-color);
+$button-color:                    var(--basic-button-color);
+$hover-button-color:              var(--hover-button-color);
+$pressed-button-color:            var(--pressed-button-color);

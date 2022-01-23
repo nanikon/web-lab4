@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: "AnonymousPro-Bold";
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   font-display: swap;
   src:
@@ -24,8 +24,8 @@
 
 @font-face {
   font-family: "AnonymousPro-BoldItalic";
-  font-weight: normal;
-  font-style: normal;
+  font-weight: bold;
+  font-style: italic;
   font-display: swap;
   src:
     local("AnonymousPro-BoldItalic"),
@@ -36,7 +36,7 @@
 @font-face {
   font-family: "AnonymousPro-Italic";
   font-weight: normal;
-  font-style: normal;
+  font-style: italic;
   font-display: swap;
   src:
     local("AnonymousPro-Italic"),
