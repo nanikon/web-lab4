@@ -1,12 +1,15 @@
 <template>
   <form method="post" @submit.prevent="auth">
+    <p v-if="this.$route.query.login">
+      Пользователь {{ this.$route.query.login }} успешно зарегистрирован!
+    </p>
     <p>
       <label for="login">Введите имя пользователя:</label><br/>
       <input type="text" name="login" id="login" required v-model.trim="login"/>
     </p>
     <p>
       <label for="password">Введите пароль:</label><br/>
-      <input type="password" name="login" id="password" required v-model="password"/>
+      <input type="password" name="password" id="password" required v-model="password"/>
     </p>
     <p>
       <button>Войти</button>
@@ -24,7 +27,7 @@ export default {
 
   data() {
     return {
-      login: '',
+      login: this.$route.query.login ? this.$route.query.login : '',
       password: '',
       errors: null
     }
@@ -42,7 +45,6 @@ export default {
         }
       ).catch((e) => {
         console.log(e.statusCode)
-        console.log(e.response.data.errorMessage)
         if (e.statusCode === 401 || e.statusCode === 404) {
           this.errors = e.response.data.errorMessage
         }
