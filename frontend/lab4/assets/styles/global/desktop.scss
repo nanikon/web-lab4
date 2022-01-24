@@ -1,0 +1,60 @@
+@import "assets/styles/variables";
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: $font-family-regular;
+  background-color: $background-color;
+  color: var(--basic-text-color);
+  min-height: 100%;
+
+  body, #__nuxt, #__layout, .page {
+    min-height: 100vh;
+    height: 1px;
+  }
+
+  body {
+    margin: 0;
+
+    .section-middle {
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+
+      .block-alone {
+        height: auto;
+        text-align: center;
+        background-color: $white;
+        max-width: $max-content;
+        margin: auto;
+        border-radius: $border-radius;
+        padding: 24px;
+      }
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-family: monospace;
+      background-color: $header-background-color;
+      color: $background-color;
+
+      p {
+        text-align: right;
+      }
+    }
+
+    form {
+      text-align: left;
+
+      .error {
+        color: $red;
+        font-size: 12px;
+      }
+    }
+  }
+}

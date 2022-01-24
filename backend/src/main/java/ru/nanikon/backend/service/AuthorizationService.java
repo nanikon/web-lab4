@@ -1,6 +1,7 @@
 package ru.nanikon.backend.service;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,7 +51,7 @@ public class AuthorizationService {
             UserDTO result = userService.create(userDTO);
             result.setPassword(password);
             return result;
-        } catch (ConstraintViolationException e) {
+        } catch (ConstraintViolationException | DataIntegrityViolationException e) {
             throw new UserAlreadyExistException("Уже существует пользователь с логином " + userDTO.getLogin());
        }
     }
