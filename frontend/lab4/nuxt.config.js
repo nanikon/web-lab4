@@ -46,10 +46,18 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/style-resources',
+    '@nuxt/http'
   ],
 
   styleResources: {
     scss: ['./assets/styles/variables.scss'],
+  },
+
+  http: {
+    host: 'localhost',
+    port: '7655',
+    prefix: '/api',
+    baseUrl: 'http://localhost:7655/api'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

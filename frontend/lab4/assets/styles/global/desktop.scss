@@ -47,5 +47,14 @@ html {
         text-align: right;
       }
     }
+
+    form {
+      text-align: left;
+
+      .error {
+        color: $red;
+        font-size: 12px;
+      }
+    }
   }
 }
