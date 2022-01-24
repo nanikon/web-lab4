@@ -55,9 +55,9 @@ export default {
 
   http: {
     host: 'localhost',
-    port: '7655',
+    port: '7656',
     prefix: '/api',
-    baseUrl: 'http://localhost:7655/api'
+    baseUrl: 'http://localhost:7656/api'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

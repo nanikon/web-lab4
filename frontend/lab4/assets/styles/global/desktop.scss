@@ -41,13 +41,23 @@ html {
       justify-content: center;
 
       .block-twice {
-        width: 100%;
+        width: 90%;
         max-width: $max-content / 2;
         border-radius: $border-radius;
         background-color: $white;
         margin: 24px;
         padding: 24px;
       }
+
+      .transparent {
+        @extend .block-twice;
+        background-color: $background-color;
+      }
+    }
+
+    .section-side-space {
+      @extend .section-top;
+      justify-content: space-evenly;
     }
 
     .header {

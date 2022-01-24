@@ -69,6 +69,7 @@ export default {
         this.errors = "Координата y должна быть числом от -5 до 5"
         return
       }
+      this.$http.setToken(this.$store.getters.getToken, 'Bearer')
       await this.$http.$post('/shots',
         {
           x: this.x,

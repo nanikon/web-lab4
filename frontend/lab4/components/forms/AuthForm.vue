@@ -41,6 +41,9 @@ export default {
           password: this.password
         }).then((resp) => {
           this.$http.setToken(resp.token, 'Bearer')
+          console.log("login " + this.login)
+          console.log("token " + resp.token)
+          this.$store.dispatch('login', this.login, resp.token)
           this.$router.replace('/main')
         }
       ).catch((e) => {

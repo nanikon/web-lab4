@@ -92,10 +92,7 @@ export default {
       }).catch((e) => {
         console.log(e)
         console.log(e.statusCode)
-        if (e.statusCode === 401) {
-          alert(e.response.data.errorMessage)
-          this.$router.replace('/')
-        } else { throw e; }
+        throw e;
       })
     },
 
