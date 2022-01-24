@@ -1,12 +1,12 @@
 <template>
-  <div id="svg" @onload="drawSvg"></div>
+  <div id="svg" @onload="drawSvg" @click="sendShot"></div>
 </template>
 
 <script>
 import { SVG, extend as SVGextend, Element as SVGElement } from '@svgdotjs/svg.js'
 
-const WIDTH = 400;
-const HEIGHT = 400;
+let WIDTH = 450;
+const HEIGHT = 450;
 const X_CENTER = 0;
 const Y_CENTER = 0;
 
@@ -17,7 +17,11 @@ const AXES_COLOR = '#000'
 const AREA_COLOR = '#AF412D';
 
 const pointsScale = 5;
-let scale = 0.035;
+let scale = 0.020;
+
+const X_VALUES = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+const Y_MIN = -5.0
+const Y_MAX = 5.0
 
 function convertX(x) {
   return (WIDTH / 2 + x / scale + X_CENTER / scale);
@@ -35,6 +39,25 @@ function convertToCoordinatesY(yPoint) {
   return (HEIGHT / 2 - yPoint) * scale - Y_CENTER;
 }
 
+function validateX(x) {
+  let minDiff = Infinity;
+  let nearestX;
+
+  for (let i = 0; i < X_VALUES.length; i++) {
+    if (Math.abs(x - X_VALUES[i]) < minDiff) {
+      minDiff = Math.abs(x - X_VALUES[i]);
+      nearestX = X_VALUES[i];
+    }
+  }
+  return nearestX;
+}
+
+function validateY(y) {
+  if (y > Y_MAX) { return Y_MAX; }
+  if (y < Y_MIN) { return Y_MIN; }
+  return y.toFixed(5);
+}
+
 export default {
   name: "SvgArea",
 
@@ -45,10 +68,37 @@ export default {
       console.log("Массив точек изменился: \"" + JSON.stringify(val) + "\"");
       console.log(val === this.$props.list)
       this.drawSvg()
+    },
+    currentR(val) {
+      console.log("R сменилось")
+      console.log(val === this.$props.currentR)
+      this.drawSvg()
     }
   },
 
   methods: {
+    async sendShot(event) {
+      let svg = document.getElementById('svg');
+      let coordinates = this.getCoords(event, svg);
+      await this.$http.$post('/shots',
+        {
+          x: coordinates.x,
+          y: coordinates.y,
+          r: coordinates.r
+        }).then((res) => {
+        console.log("Saved shot:")
+        console.log(res)
+        this.$emit('refresh-shots')
+      }).catch((e) => {
+        console.log(e)
+        console.log(e.statusCode)
+        if (e.statusCode === 401) {
+          alert(e.response.data.errorMessage)
+          this.$router.replace('/')
+        } else { throw e; }
+      })
+    },
+
     drawSvg() {
       document.getElementById('svg').innerHTML = '' // очистка
       console.log("Полученный массив точек: \"" + JSON.stringify(this.$props.list) + "\"");
@@ -157,28 +207,28 @@ export default {
       const r = this.$props.currentR
       CANVAS.circle(r / scale).fill(AREA_COLOR).move(convertX(-r / 2), convertY(r / 2))
       const fillUnusedCircle = (convertX(0)) + ',' + (convertY(0)) + ' ' +
-        (convertX(-r)) + ',' + (convertY(0)) + ' ' +
-        (convertX(-r)) + ',' + (convertY(r)) + ' ' +
-        (convertX(r)) + ',' + (convertY(r)) + ' ' +
+        (convertX(r)) + ',' + (convertY(0)) + ' ' +
         (convertX(r)) + ',' + (convertY(-r)) + ' ' +
-        (convertX(0)) + ',' + (convertY(-r));
+        (convertX(-r)) + ',' + (convertY(-r)) + ' ' +
+        (convertX(-r)) + ',' + (convertY(r)) + ' ' +
+        (convertX(0)) + ',' + (convertY(r));
       CANVAS.polygon(fillUnusedCircle).fill(BACKGROUND_COLOR)
     },
 
     drawRect() {
       const r = this.$props.currentR
       const area = (convertX(0)) + ',' + (convertY(0)) + ' ' +
-        (convertX(-r)) + ',' + (convertY(0)) + ' ' +
-        (convertX(-r)) + ',' + (convertY(r / 2)) + ' ' +
-        (convertX(0)) + ',' + (convertY(r / 2));
+        (convertX(-r / 2)) + ',' + (convertY(0)) + ' ' +
+        (convertX(-r / 2)) + ',' + (convertY(r)) + ' ' +
+        (convertX(0)) + ',' + (convertY(r));
       CANVAS.polygon(area).fill(AREA_COLOR)
     },
 
     drawTriangle() {
       const r = this.$props.currentR
       const area = (convertX(0)) + ',' + (convertY(0)) + ' ' +
-        (convertX(0)) + ',' + (convertY(r)) + ' ' +
-        (convertX(r)) + ',' + (convertY(0));
+        (convertX(r)) + ',' + (convertY(0)) + ' ' +
+        (convertX(0)) + ',' + (convertY(- r / 2));
       CANVAS.polygon(area).fill(AREA_COLOR)
     },
 
@@ -192,6 +242,25 @@ export default {
     drawPoint(x, y, result, pointScale) {
       let color = result ? '#0f0' : '#f00';
       CANVAS.circle(pointScale).fill(color).move(convertX(x) - pointScale / 2, convertY(y) - pointScale / 2);
+    },
+
+    getCoords(event, element) {
+      let coordinates = {};
+      let xPosition = element.getBoundingClientRect().left;
+      let yPosition = element.getBoundingClientRect().top;
+      console.log('xPosition: ' + xPosition + ' X: ' + (event.clientX - xPosition));
+      console.log('yPosition: ' + yPosition + ' Y: ' + (event.clientY - yPosition));
+
+      let svg = document.getElementById("svg");
+      WIDTH = svg.getBoundingClientRect().width;
+      //HEIGHT = svg.getBoundingClientRect().height;
+      coordinates.x = validateX(convertToCoordinatesX(event.clientX - xPosition));
+      coordinates.y = validateY(convertToCoordinatesY(event.clientY - yPosition));
+      coordinates.r = this.$props.currentR;
+      console.log('X: ' + coordinates.x);
+      console.log('Y: ' + coordinates.y);
+      console.log('R: ' + coordinates.r);
+      return coordinates;
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
   <div class="section-top">
     <div class="block-twice">
-        <SvgArea v-bind:current-r=currentR v-bind:list=shotList ></SvgArea>
+        <SvgArea @refresh-shots="refresh" v-bind:current-r=currentR v-bind:list=shotList ></SvgArea>
     </div>
     <div class="block-twice">
       <ShotForm @refresh-shots="refresh" @change-r="updateR"></ShotForm>
