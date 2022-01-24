@@ -35,6 +35,21 @@ html {
       }
     }
 
+    .section-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .block-twice {
+        width: 100%;
+        max-width: $max-content / 2;
+        border-radius: $border-radius;
+        background-color: $white;
+        margin: 24px;
+        padding: 24px;
+      }
+    }
+
     .header {
       display: flex;
       justify-content: space-around;
@@ -55,6 +70,24 @@ html {
         color: $red;
         font-size: 12px;
       }
+    }
+
+    table {
+      width: 90%;
+      margin-left: 5%;
+      margin-right: 5%;
+      margin-bottom: 20px;
+      border-collapse: collapse;
+      text-align: center;
+
+      &, td, th {
+        border: 2px solid $pressed-button-color;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: $pressed-button-color;
     }
   }
 }

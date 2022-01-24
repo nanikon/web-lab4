@@ -71,7 +71,7 @@ public class JwtFilter extends OncePerRequestFilter {
       ObjectMapper mapper = new ObjectMapper();
       ObjectNode message = mapper.createObjectNode();
       message.put("errorCode", errorCode);
-      message.put("message", exception.getMessage());
+      message.put("errorMessage", exception.getMessage());
       out.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(message));
    }
 }

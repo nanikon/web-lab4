@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class FullShotDTO extends CreateShotDTO {
+   private Long id;
    private boolean isHit;
 }
