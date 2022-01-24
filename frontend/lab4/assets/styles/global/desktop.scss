@@ -6,7 +6,7 @@
 html {
   font-family: $font-family-regular;
   background-color: $background-color;
-  color: var(--basic-text-color);
+  color: $text-color;
   min-height: 100%;
 
   body, #__nuxt, #__layout, .page {
@@ -70,6 +70,10 @@ html {
         color: $red;
         font-size: 12px;
       }
+
+      label, input, select {
+        margin: 5px;
+      }
     }
 
     table {
@@ -88,6 +92,11 @@ html {
     h2 {
       text-align: center;
       color: $pressed-button-color;
+    }
+
+    .message {
+      padding: 24px;
+      text-align: center;
     }
   }
 }

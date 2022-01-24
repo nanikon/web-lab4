@@ -1,6 +1,6 @@
 <template>
   <form method="post" @submit.prevent="auth">
-    <p v-if="this.$route.query.login">
+    <p class="message" v-if="this.$route.query.login">
       Пользователь {{ this.$route.query.login }} успешно зарегистрирован!
     </p>
     <p>
