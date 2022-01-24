@@ -5,7 +5,7 @@
         fdf
     </div>
     <div class="block-twice">
-      <ShotForm @refresh-shots="refresh"></ShotForm>
+      <ShotForm @refresh-shots="refresh" @change-r="updateR"></ShotForm>
     </div>
   </div>
     <h2>Результаты</h2>
@@ -21,7 +21,8 @@ export default {
   components: {ShotForm},
   data() {
     return {
-      shotList: []
+      shotList: [],
+      currentR: 1
     }
   },
 
@@ -44,6 +45,11 @@ export default {
     refresh() {
       console.log("start refresh")
       this.$fetch()
+    },
+
+    updateR(r) {
+      this.currentR = r
+      console.log(this.currentR)
     }
   }
 }

@@ -20,7 +20,7 @@
     </p>
     <p>
       <label for="input-r">Выберите радиус r:</label> <br>
-      <select v-model.number="r" id="input-r" required>
+      <select v-model.number="r" id="input-r" required @change="changeR">
         <option disabled>-4</option>
         <option disabled>-3</option>
         <option disabled>-2</option>
@@ -61,7 +61,7 @@ export default {
     }
   },
 
-  emits: ['refresh-shots'],
+  emits: ['refresh-shots', 'change-r'],
 
   methods: {
     async sendShot() {
@@ -96,6 +96,10 @@ export default {
 
     cleanErrors() {
       this.errors = null
+    },
+
+    changeR() {
+      this.$emit('change-r', this.r)
     }
   }
 }
