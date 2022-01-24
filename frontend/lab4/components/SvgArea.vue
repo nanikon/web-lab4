@@ -1,5 +1,5 @@
 <template>
-  <div id="svg" @onload="drawSvg" @click="sendShot"></div>
+  <div id="svg" @load="drawSvg" @click="sendShot"></div>
 </template>
 
 <script>
