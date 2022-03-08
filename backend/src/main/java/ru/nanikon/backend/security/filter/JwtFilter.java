@@ -24,12 +24,9 @@ import java.util.List;
  */
 public class JwtFilter extends OncePerRequestFilter {
    private final JwtTokenService jwtTokenService;
-   private final AntPathRequestMatcher filterPath = new AntPathRequestMatcher("/swagger-ui/**");
-   private final List<AntPathRequestMatcher> noFilterPath = Arrays.asList(
-           new AntPathRequestMatcher("/swagger-ui/**"),
-           new AntPathRequestMatcher("/v3/api-docs/**"),
-           new AntPathRequestMatcher("/api/users/**"),
-           new AntPathRequestMatcher("/echo"));
+   private final List<AntPathRequestMatcher> filterPaths = Arrays.asList(
+           new AntPathRequestMatcher("/api/shots"),
+           new AntPathRequestMatcher("/main"));
 
    public JwtFilter(JwtTokenService jwtTokenService) {
       this.jwtTokenService = jwtTokenService;
@@ -38,9 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
    @Override
    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
       try {
-         if (noFilterPath.stream().anyMatch(path -> path.matches(request))) {
-            filterChain.doFilter(request, response);
-         } else {
+         if (filterPaths.stream().anyMatch(path -> path.matches(request))) {
             String token = jwtTokenService.resolveToken(request);
             if (token != null && jwtTokenService.validateToken(token)) {
                Authentication auth = jwtTokenService.getAuthentication(token);
@@ -49,6 +44,8 @@ public class JwtFilter extends OncePerRequestFilter {
             } else {
                throw new WrongTokenException("Истекший или несуществующий JWT токен");
             }
+         } else {
+            filterChain.doFilter(request, response);
          }
       } catch (BaseApiException e) {
          handleBaseApiException(e, response);
@@ -71,7 +68,7 @@ public class JwtFilter extends OncePerRequestFilter {
       ObjectMapper mapper = new ObjectMapper();
       ObjectNode message = mapper.createObjectNode();
       message.put("errorCode", errorCode);
-      message.put("message", exception.getMessage());
+      message.put("errorMessage", exception.getMessage());
       out.write(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(message));
    }
 }

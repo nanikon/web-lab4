@@ -6,7 +6,7 @@
 html {
   font-family: $font-family-regular;
   background-color: $background-color;
-  color: var(--basic-text-color);
+  color: $text-color;
   min-height: 100%;
 
   body, #__nuxt, #__layout, .page {
@@ -35,6 +35,31 @@ html {
       }
     }
 
+    .section-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .block-twice {
+        width: 90%;
+        max-width: $max-content / 2;
+        border-radius: $border-radius;
+        background-color: $white;
+        margin: 24px;
+        padding: 24px;
+      }
+
+      .transparent {
+        @extend .block-twice;
+        background-color: $background-color;
+      }
+    }
+
+    .section-side-space {
+      @extend .section-top;
+      justify-content: space-evenly;
+    }
+
     .header {
       display: flex;
       justify-content: space-around;
@@ -55,6 +80,33 @@ html {
         color: $red;
         font-size: 12px;
       }
+
+      label, input, select {
+        margin: 5px;
+      }
+    }
+
+    table {
+      width: 90%;
+      margin-left: 5%;
+      margin-right: 5%;
+      margin-bottom: 20px;
+      border-collapse: collapse;
+      text-align: center;
+
+      &, td, th {
+        border: 2px solid $pressed-button-color;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: $pressed-button-color;
+    }
+
+    .message {
+      padding: 24px;
+      text-align: center;
     }
   }
 }

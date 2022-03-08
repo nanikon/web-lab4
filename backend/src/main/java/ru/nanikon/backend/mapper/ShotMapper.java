@@ -40,6 +40,7 @@ public class ShotMapper {
 
    public FullShotDTO fromEntityToDTO(ShotEntity source) {
       FullShotDTO target = new FullShotDTO();
+      target.setId(source.getId());
       target.setX((double) source.getX());
       target.setY(source.getY());
       target.setR((double) source.getR());

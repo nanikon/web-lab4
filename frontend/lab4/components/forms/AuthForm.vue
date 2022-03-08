@@ -1,6 +1,6 @@
 <template>
   <form method="post" @submit.prevent="auth">
-    <p v-if="this.$route.query.login">
+    <p class="message" v-if="this.$route.query.login">
       Пользователь {{ this.$route.query.login }} успешно зарегистрирован!
     </p>
     <p>
@@ -41,6 +41,9 @@ export default {
           password: this.password
         }).then((resp) => {
           this.$http.setToken(resp.token, 'Bearer')
+          console.log("login " + this.login)
+          console.log("token " + resp.token)
+          this.$store.dispatch('login', this.login, resp.token)
           this.$router.replace('/main')
         }
       ).catch((e) => {

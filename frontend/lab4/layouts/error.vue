@@ -27,7 +27,11 @@ export default Vue.extend({
       return (this.error && this.error.statusCode) || 500
     },
     message () {
-      return this.error.message || 'Ошибка сервера без сообщения!'
+      try {
+        return this.error.response.data.errorMessage
+      } catch (e) {
+        return this.error.message || 'Ошибка сервера без сообщения!'
+      }
     }
   },
 })
